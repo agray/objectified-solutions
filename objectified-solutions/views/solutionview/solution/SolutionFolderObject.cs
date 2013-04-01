@@ -52,11 +52,11 @@ namespace objectified_solutions.views.solutionview.solution {
         }
 
         private bool HasNestedFolders(string projectGuid, List<string> nestedProjectsSection) {
-
+            return false;
         }
 
         private bool HasNestedProjects() {
-            
+            return false;
         }
     }
 }
