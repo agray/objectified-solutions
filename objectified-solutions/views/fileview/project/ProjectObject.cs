@@ -36,7 +36,7 @@ namespace objectified_solutions.views.fileview.project {
         public string Platform { get; set; }
         public string ProductVersion { get; set; }
         public string RootNamespace { get; set; }
-        public string TargetFrameworkVersion { get; set; }
+        public string TargetFramework { get; set; }
         public string SchemaVersion { get; set; }
                 
         public List<SourceCodeFile> SourceFiles { get; set; }

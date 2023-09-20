@@ -24,6 +24,7 @@
  */
 #endregion
 using System.Collections.Generic;
+using System.Linq;
 
 namespace objectified_solutions.views.solutionview.project {
     public class NestedProjectCollection {
@@ -52,15 +53,12 @@ namespace objectified_solutions.views.solutionview.project {
                 }
             }
 
-            RootParents = new List<string>();
-            foreach(var parent in Parents) {
-                if(!Children.Contains(parent)) {
-                    RootParents.Add(parent);
-                }
-            }
-
+            RootParents = (from parent in Parents
+                           where !Children.Contains(parent)
+                           select parent).ToList();
             NestedProjects = new List<string>();
             NestedFolders = new List<string>();
+
             foreach(var child in Children) {
                 if(!IsParent(child)) {
                     NestedProjects.Add(child);

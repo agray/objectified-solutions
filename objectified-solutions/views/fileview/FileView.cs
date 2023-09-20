@@ -23,11 +23,12 @@
  * THE SOFTWARE.
  */
 #endregion
-using System.Collections.Generic;
 using objectified_solutions.parsers;
 using objectified_solutions.views.fileview.project;
+using System.Collections.Generic;
 
-namespace objectified_solutions.views.fileview {
+namespace objectified_solutions.views.fileview
+{
     public class FileView {
         public List<ProjectObject> Projects { get; set; }
 
@@ -56,15 +57,10 @@ namespace objectified_solutions.views.fileview {
             return project;
         }
 
-        public string GetProjectName(string projectGuid) {
-            string name = string.Empty;
-            foreach(var project in Projects) {
-                if(project.ProjectGuid.Equals(projectGuid)) {
-                    name = project.Name;
-                    break;
-                }
-            }
-            return name;
+        public string GetProjectName(string projectGuid) 
+        {
+            var targetProject = Projects.Find(p => p.ProjectGuid.Equals(projectGuid));
+            return targetProject?.Name;
         }
     }
 }

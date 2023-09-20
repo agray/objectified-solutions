@@ -37,19 +37,19 @@ namespace objectified_solutions.parsers {
             var nsmgr = GetNsMgr(csprojFile);
             doc.Load(csprojFile);
 
-            var propertyGroupList = doc.SelectNodes("//msbuild:Project/msbuild:PropertyGroup", nsmgr);
+            var propertyGroupList = doc.SelectNodes("//Project/PropertyGroup", nsmgr);
             if(propertyGroupList != null) {
                 var properties = propertyGroupList[0];
-                project.OutputType = GetProperty(properties, Constants.PROPERTY_OUTPUTTYPE);
-                project.Configuration = GetProperty(properties, Constants.PROPERTY_CONFIGURATION);
-                project.Platform = GetProperty(properties, Constants.PROPERTY_PLATFORM);
-                project.ProductVersion = GetProperty(properties, Constants.PROPERTY_PRODUCTVERSION);
-                project.RootNamespace = GetProperty(properties, Constants.PROPERTY_ROOTNAMESPACE);
-                project.TargetFrameworkVersion = GetProperty(properties, Constants.PROPERTY_TARGETFRAMEWORKVERSION);
-                project.SchemaVersion = GetProperty(properties, Constants.PROPERTY_SCHEMAVERSION);
+                //project.OutputType = GetProperty(properties, Constants.PROPERTY_OUTPUTTYPE);
+                //project.Configuration = GetProperty(properties, Constants.PROPERTY_CONFIGURATION);
+                //project.Platform = GetProperty(properties, Constants.PROPERTY_PLATFORM);
+                //project.ProductVersion = GetProperty(properties, Constants.PROPERTY_PRODUCTVERSION);
+                //project.RootNamespace = GetProperty(properties, Constants.PROPERTY_ROOTNAMESPACE);
+                project.TargetFramework = GetProperty(properties, Constants.PROPERTY_TARGETFRAMEWORK);
+                //project.SchemaVersion = GetProperty(properties, Constants.PROPERTY_SCHEMAVERSION);
             }
 
-            var itemGroups = doc.SelectNodes("//msbuild:Project/msbuild:ItemGroup", nsmgr);
+            var itemGroups = doc.SelectNodes("//Project/ItemGroup", nsmgr);
             ProcessItemGroups(itemGroups, project);
         }
 

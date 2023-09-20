@@ -27,12 +27,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using objectified_solutions.views.fileview;
 using objectified_solutions.views.solutionview;
 using objectified_solutions.views.solutionview.solution;
 
-namespace objectified_solutions {
+namespace objectified_solutions
+{
     public sealed class SolutionObject {
         public string FormatVersion { get; set; }
         public string VSVersion { get; set; }
@@ -45,8 +47,8 @@ namespace objectified_solutions {
             var lines = new List<string>(File.ReadAllLines(slnFile));
             RootPath = GetRootPath(slnFile);
             Name = GetName(slnFile);
-            FormatVersion = GetFormatVersion(lines[0]);
-            VSVersion = lines[1].Substring(2);
+            FormatVersion = GetFormatVersion(lines);
+            VSVersion = lines[2].Substring(2);
 
             FileView = new FileView(lines, RootPath);
             SolutionView = new SolutionView(lines);
@@ -91,21 +93,33 @@ namespace objectified_solutions {
             foreach (SolutionFolderObject sfo in sfos) {
                 sb.Append(Common.Tabs(numTabs)).AppendLine(sfo.Name);
                 //Print out nested solution folders
-                if (sfo.HasNestedFolders()) {
+                if (sfo.HasNestedFolders())
+                {
                     EmitSolutionFolder(sb, sfo.NestedFolders, numTabs + 1);
                 }
+
                 //Print out projects
-                if(sfo.HasNestedProjects()) {
-                    foreach(var projectGuid in sfo.NestedProjects) {
-                        sb.Append(Common.Tabs(numTabs + 1)).AppendLine(FileView.GetProjectName(projectGuid));
+                if (sfo.HasNestedProjects())
+                {
+                    foreach (var projectName in from projectGuid in sfo.NestedProjects
+                                                let projectName = FileView.GetProjectName(projectGuid)
+                                                where projectName != null
+                                                select projectName)
+                    {
+                        sb.Append(Common.Tabs(numTabs + 1)).AppendLine(projectName);
                     }
                 }   
             }
         }
 
-        private void EmitProjectsNotInASolutionFolder(StringBuilder sb) {
-            foreach(string projectGuid in SolutionView.ProjectsNotInASolutionFolder) {
-                sb.AppendLine(FileView.GetProjectName(projectGuid));
+        private void EmitProjectsNotInASolutionFolder(StringBuilder sb)
+        {
+            foreach (var projectName in SolutionView.ProjectsNotInASolutionFolder
+                         .Select(projectGuid => FileView
+                             .GetProjectName(projectGuid))
+                         .Where(projectName => projectName != null))
+            {
+                sb.AppendLine(projectName);
             }
         }
 
@@ -119,8 +133,10 @@ namespace objectified_solutions {
             return slnFile.Substring(lastSlash + 1);
         }
 
-        private string GetFormatVersion(string firstLine) {
-            string[] tokens = Common.Split(firstLine);
+        private string GetFormatVersion(List<string> lines)
+        {
+            string firstNonBlankLine = lines.Find(x => !x.Equals(""));
+            string[] tokens = Common.Split(firstNonBlankLine);
             return tokens[tokens.Length - 1];
         }
     }

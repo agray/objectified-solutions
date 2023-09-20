@@ -41,7 +41,7 @@ namespace objectified_solutions {
         public const string MSBUILD = "msbuild";
         public const string NESTED_PROJECTS = "NestedProjects";
 
-        public const string ITEM_GROUP_REFERENCE = "Reference";
+        public const string ITEM_GROUP_REFERENCE = "PackageReference";
         public const string ITEM_GROUP_CONTENT = "Content";
         public const string ITEM_GROUP_COMPILE = "Compile";
         public const string ITEM_GROUP_NONE = "None";
@@ -54,7 +54,7 @@ namespace objectified_solutions {
         public const string PROPERTY_PLATFORM = "Platform";
         public const string PROPERTY_PRODUCTVERSION = "ProductVersion";
         public const string PROPERTY_ROOTNAMESPACE = "RootNamespace";
-        public const string PROPERTY_TARGETFRAMEWORKVERSION = "TargetFrameworkVersion";
+        public const string PROPERTY_TARGETFRAMEWORK = "TargetFramework";
         public const string PROPERTY_SCHEMAVERSION = "SchemaVersion";
         public const string PROPERTY_PROJECTGUID = "ProjectGuid";
         public const string PROPERTY_SPECIFICVERSION = "SpecificVersion";
